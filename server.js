@@ -8,12 +8,8 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var tables = [{}];
+var tables = [];
 var waitlist = [];
-
-app.get("/", function (req, res) {
-	res.sendFile(path.join(__dirname, "index.html"));
-});
 
 app.get("/reserve", function (req, res) {
 	console.log("this is the reserve page");
@@ -32,6 +28,24 @@ app.get("/api/waitlist", function (req, res) {
 	return res.json(waitlist);
 });
 
+app.post("/api/tables", function (req, res) {
+	if (tables.length < 5) {
+		tables.push(req.body);
+		res.json(true);
+	} else {
+		waitlist.push(req.body);
+		res.json(false);
+	}
+});
+
+app.post("/api/waitlist", function (req, res) {
+	return res.json(waitlist);
+});
+
 app.listen(PORT, function () {
 	console.log("App listening on PORT: " + PORT);
+});
+
+app.get("/", function (req, res) {
+	res.sendFile(path.join(__dirname, "index.html"));
 });
