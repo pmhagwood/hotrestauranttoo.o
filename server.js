@@ -8,7 +8,7 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var tables = [];
+var tables = [{}];
 var waitlist = [];
 
 app.get("/", function (req, res) {
